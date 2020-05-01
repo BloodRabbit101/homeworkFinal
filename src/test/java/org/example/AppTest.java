@@ -51,7 +51,8 @@ public class AppTest
         // Шаг 8
         for (int i=0; i<2; i++) {
             // Шаг 3
-            ElementsCollection collection = $$(By.xpath("//div[./div/div/span[1][@class='thread-detail-replies']]/a"));
+            ElementsCollection collection = $$(By.xpath(".//span[1][@class='thread-detail-replies']" +
+                    "/ancestor::div[@class='media-body']/a"));
             collection.get((int) (collection.size() * Math.random())).click();
 
             // Шаг 4
