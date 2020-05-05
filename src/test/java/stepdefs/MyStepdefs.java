@@ -5,52 +5,59 @@ import com.codeborne.selenide.ElementsCollection;
 import cucumber.api.java.ru.И;
 import org.openqa.selenium.By;
 
+import java.lang.reflect.InvocationTargetException;
+
+import static com.codeborne.selenide.SelenideElement.*;
 import static com.codeborne.selenide.Selenide.*;
+import static pages.AbstractPage.getPageByTitle;
+import static pages.AbstractPage.getUrlByTitle;
 
 public class MyStepdefs {
 
-    @И("^Открываем ресурс, проходим авторизацию$")
-    public void открываемРесурсПроходимАвторизацию() {
-        open("https://dev.n7lanit.ru/");
-        $(By.xpath("//button[@class='btn navbar-btn btn-default btn-sign-in']")).should(Condition.visible).click();
-        $(By.xpath("//div/input[@type='text']")).sendKeys("Olga");
-        $(By.xpath("//div/input[@type='password']")).sendKeys("wuhnyq-gojfex-ronhE8");
-        $(By.xpath("//button[@class='btn btn-primary btn-block']")).pressEnter();
+    @И("Открываем страницу {string}")
+    public void открываемСтраницу(String site) throws ClassNotFoundException {
+        open(getUrlByTitle(site));
     }
 
-    @И("Проверяем что авторизация выполнена успешно")
-    public void проверяемЧтоАвторизацияВыполненаУспешно() {
-        $(By.xpath("//li/a/img[@class='user-avatar']")).should(Condition.visible);
+    @И("На странице {string} нажимаем на кнопку {string}, вводим логин {string} {string} и " +
+            "пароль {string} {string}, авторизуемся {string}")
+    public void наСтраницеНажимаемНаКнопкуВводимЛогинИПарольАвторизуемся(String title, String tabName, String login,
+                                                                         String name, String password,
+                                                                         String passwordValue, String send) throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvocationTargetException {
+        getPageByTitle(title).getElementByName(tabName).click();
+        getPageByTitle(title).getElementByName(login).sendKeys(name);
+        getPageByTitle(title).getElementByName(password).sendKeys(passwordValue);
+        getPageByTitle(title).getElementByName(send).click();
     }
 
-    @И("Выбираем случайную тему, не являющуюся опросом, открываем ее")
-    public void выбираемСлучайнуюТемуНеЯвляющуюсяОпросомОткрываемЕе() {
-        ElementsCollection collection = $$(By.xpath(".//span[1][@class='thread-detail-replies']" +
-                "/ancestor::div[@class='media-body']/a"));
-        collection.get((int) (collection.size() * Math.random())).click();
+    @И("На странице {string} проверяем успешность авторизации {string}")
+    public void наСтраницеПроверяемУспешностьАвторизации(String title, String check) throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvocationTargetException {
+        getPageByTitle(title).getElementByName(check).isDisplayed();
     }
 
-    @И("Нажимаем на кнопку «Ответить»")
-    public void нажимаемНаКнопкуОтветить() {
-        $(By.xpath("//button[@class='btn btn-primary btn-block btn-outline']")).should(Condition.visible).click();
+    @И("На странице {string} выбираем случайную тему {string}")
+    public void наСтраницеВыбираемСлучайнуюТему(String title, String topic) throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvocationTargetException {
+        getPageByTitle(title).getElementByName(topic).click();
     }
 
-    @И("Вводим текст, нажимаем на кнопку «отправить»")
-    public void вводимТекстНажимаемНаКнопкуОтправить() {
-        $(By.xpath("//textarea")).sendKeys("Я пригласил вас, господа, с тем, чтобы сообщить вам " +
-                "пренеприятное известие: к нам едет ревизор.");
-        $(By.xpath("//button[@type='submit']")).click();
+    @И("На странице {string} нажимаем на кнопку {string}")
+    public void наСтраницеНажимаемНаКнопку(String title, String reply) throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvocationTargetException {
+        getPageByTitle(title).getElementByName(reply).click();
     }
 
-    @И("Проверяем, что сообщение отображается в теме")
-    public void проверяемЧтоСообщениеОтображаетсяВТеме() {
-        $(By.xpath(".//p[text()='Я пригласил вас, господа, с тем, чтобы сообщить вам пренеприятное известие: к нам " +
-                "едет ревизор.']/ancestor::li/descendant::a[@class='item-title' and @href='/u/olga/138/']"))
-                .should(Condition.visible);
+    @И("На странице {string} в поле {string} вводим {string}, нажимаем на кнопку {string}")
+    public void наСтраницеВПолеВводимНажимаемНаКнопку(String title, String textArea, String text, String send) throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvocationTargetException {
+        getPageByTitle(title).getElementByName(textArea).sendKeys(text);
+        getPageByTitle(title).getElementByName(send).click();
     }
 
-    @И("Переходим на вкладку «Темы»")
-    public void переходимНаВкладкуТемы() {
-        $(By.xpath("//a[text()='Темы']")).click();
+    @И("Проверяем отображение сообщения {string} на странице {string}")
+    public void проверяемОтображениеСообщенияНаСтранице(String message, String title) throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvocationTargetException {
+        getPageByTitle(title).getElementByName(message).isDisplayed();
+    }
+
+    @И("Переходим на вкладку {string} на странице {string}")
+    public void переходимНаВкладкуНаСтранице(String topics, String title) throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvocationTargetException {
+        getPageByTitle(title).getElementByName(topics).click();
     }
 }
