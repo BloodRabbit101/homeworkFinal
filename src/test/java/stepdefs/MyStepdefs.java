@@ -4,6 +4,8 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import cucumber.api.java.ru.И;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import pages.MainPage;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -19,45 +21,41 @@ public class MyStepdefs {
         open(getUrlByTitle(site));
     }
 
-    @И("На странице {string} нажимаем на кнопку {string}, вводим логин {string} {string} и " +
-            "пароль {string} {string}, авторизуемся {string}")
-    public void наСтраницеНажимаемНаКнопкуВводимЛогинИПарольАвторизуемся(String title, String tabName, String login,
-                                                                         String name, String password,
-                                                                         String passwordValue, String send) throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvocationTargetException {
-        getPageByTitle(title).getElementByName(tabName).click();
+    @И("На странице {string} нажимаем на кнопку {string}")
+    public void наСтраницеНажимаемНаКнопку(String title, String button) throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvocationTargetException, InterruptedException {
+        getPageByTitle(title).getElementByName(button).click();
+        Thread.sleep(1000);
+    }
+
+    @И("На странице {string} вводим логин {string} {string}")
+    public void наСтраницеВводимЛогин(String title, String login, String name) throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvocationTargetException {
         getPageByTitle(title).getElementByName(login).sendKeys(name);
+    }
+
+    @И("На странице {string} пароль {string} {string}")
+    public void наСтраницеПароль(String title, String password, String passwordValue) throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvocationTargetException {
         getPageByTitle(title).getElementByName(password).sendKeys(passwordValue);
+    }
+
+    @И("На странице {string} авторизуемся {string}")
+    public void наСтраницеАвторизуемся(String title, String send) throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvocationTargetException {
         getPageByTitle(title).getElementByName(send).click();
     }
 
-    @И("На странице {string} проверяем успешность авторизации {string}")
-    public void наСтраницеПроверяемУспешностьАвторизации(String title, String check) throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvocationTargetException {
+    @И("На странице {string} проверяем {string}")
+    public void наСтраницеПроверяем(String title, String check) throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvocationTargetException {
         getPageByTitle(title).getElementByName(check).isDisplayed();
     }
 
     @И("На странице {string} выбираем случайную тему {string}")
-    public void наСтраницеВыбираемСлучайнуюТему(String title, String topic) throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvocationTargetException {
+    public void наСтраницеВыбираемСлучайнуюТему(String title, String topic) throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvocationTargetException, InterruptedException {
         getPageByTitle(title).getElementByName(topic).click();
+        Thread.sleep(1000);
     }
 
-    @И("На странице {string} нажимаем на кнопку {string}")
-    public void наСтраницеНажимаемНаКнопку(String title, String reply) throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvocationTargetException {
-        getPageByTitle(title).getElementByName(reply).click();
-    }
-
-    @И("На странице {string} в поле {string} вводим {string}, нажимаем на кнопку {string}")
-    public void наСтраницеВПолеВводимНажимаемНаКнопку(String title, String textArea, String text, String send) throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvocationTargetException {
-        getPageByTitle(title).getElementByName(textArea).sendKeys(text);
-        getPageByTitle(title).getElementByName(send).click();
-    }
-
-    @И("Проверяем отображение сообщения {string} на странице {string}")
-    public void проверяемОтображениеСообщенияНаСтранице(String message, String title) throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvocationTargetException {
-        getPageByTitle(title).getElementByName(message).isDisplayed();
-    }
-
-    @И("Переходим на вкладку {string} на странице {string}")
-    public void переходимНаВкладкуНаСтранице(String topics, String title) throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvocationTargetException {
-        getPageByTitle(title).getElementByName(topics).click();
+    @И("На странице {string} переходим на вкладку {string}")
+    public void наСтраницеПереходимНаВкладку(String title, String subscribes) throws IllegalAccessException, InstantiationException, ClassNotFoundException, InvocationTargetException, InterruptedException {
+        getPageByTitle(title).getElementByName(subscribes).click();
+        Thread.sleep(1000);
     }
 }

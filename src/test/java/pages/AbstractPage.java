@@ -13,7 +13,6 @@ public abstract class AbstractPage {
 
     static {
         CLASSES.add(MainPage.class);
-        CLASSES.add(TopicPage.class);
     }
 
     public static String getUrlByTitle(String title) throws ClassNotFoundException {
